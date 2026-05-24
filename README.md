@@ -9,6 +9,17 @@ A high-impact, real-time family tracking console and telemetry dashboard enginee
 
 ---
 
+## ⬇️ Pre-Compiled Delivery // Quick Install
+
+Get the application up and running on your Android device:
+
+* **[Download Latest Release APK](https://github.com/yourusername/family-radar/releases/latest/download/app-debug.apk)** *(Ready-to-install debug architecture signature)*
+* **Alternative Build Actions**:
+  * Build your own APK from source locally in seconds by running the compilation task pipeline listed in the [Building & Launching](#-building--launching) section below.
+  * In active development environments, utilize the container's export tools to package signed release APKs/AABs or zip files directly through the workspace options list.
+
+---
+
 ## 🎨 Visual Identity & Brutalist Manifesto
 
 Family Radar rejects generic, polished corporate design in favor of **strict, high-contrast flat panels**. 
