@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <path android:pathData="M0,0h108v108h-108z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:type="linear"
+                android:startX="0"
+                android:startY="0"
+                android:endX="108"
+                android:endY="108">
+                <item android:offset="0.0" android:color="#0F172A"/>
+                <item android:offset="1.0" android:color="#312E81"/>
+            </gradient>
+        </aapt:attr>
+    </path>
+    
+    <!-- Radar concentric grid lines -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1"
+        android:strokeAlpha="0.12"
+        android:fillColor="#00000000"
+        android:pathData="M 54,54 m -42,0 a 42,42 0 1,0 84,0 a 42,42 0 1,0 -84,0" />
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1"
+        android:strokeAlpha="0.12"
+        android:fillColor="#00000000"
+        android:pathData="M 54,54 m -28,0 a 28,28 0 1,0 56,0 a 28,28 0 1,0 -56,0" />
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1"
+        android:strokeAlpha="0.12"
+        android:fillColor="#00000000"
+        android:pathData="M 54,54 m -14,0 a 14,14 0 1,0 28,0 a 14,14 0 1,0 -28,0" />
+    
+    <!-- Crosshairs grid lines -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1"
+        android:strokeAlpha="0.08"
+        android:pathData="M15,54 L93,54 M54,15 L54,93" />
+</vector>

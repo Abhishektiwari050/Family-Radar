@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- Radar Sweep Signal Beam -->
+    <path
+        android:strokeColor="#10B981"
+        android:strokeWidth="3.5"
+        android:strokeLineCap="round"
+        android:pathData="M38,40 A 22,22 0 0,1 70,40" />
+    <path
+        android:strokeColor="#5046E5"
+        android:strokeWidth="3.5"
+        android:strokeLineCap="round"
+        android:pathData="M30,34 A 32,32 0 0,1 78,34" />
+        
+    <!-- Main Location Marker (Centered at 54, 58) -->
+    <path
+        android:fillColor="#E0E7FF"
+        android:pathData="M54,26 C43.2,26 34.5,34.7 34.5,45.5 C34.5,59.3 54,80 54,80 C54,80 73.5,59.3 73.5,45.5 C73.5,34.7 64.8,26 54,26 Z" />
+        
+    <!-- Radar Heartbeat Pin Core (Inward bright green target dot) -->
+    <path
+        android:fillColor="#10B981"
+        android:pathData="M54,45.5 m -6.5,0 a 6.5,6.5 0 1,0 13,0 a 6.5,6.5 0 1,0 -13,0" />
+
+</vector>

@@ -1,0 +1,6 @@
+{
+  "name": "Family Tracker",
+  "description": "An interactive real-time family tracker showing live positions on a stylized vector radar map, with location sharing simulation, custom notifications, status checks, and device metrics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
