@@ -3,6 +3,7 @@ package com.example.ui.components
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
@@ -30,6 +31,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.data.local.FamilyMemberEntity
 import com.example.data.local.GeofenceEntity
+import com.example.ui.theme.*
+import androidx.compose.ui.text.font.FontWeight
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -63,8 +66,8 @@ fun RadarMap(
     val rangeLabels = remember(scale) {
         listOf(150f, 400f, 800f, 1500f).associateWith { rangeMeters ->
             textMeasurer.measure(
-                text = "${rangeMeters.toInt()}m",
-                style = TextStyle(color = Color(0xFF818CF8).copy(alpha = 0.5f), fontSize = 10.sp)
+                text = "${rangeMeters.toInt()}M",
+                style = TextStyle(color = CyberGreen.copy(alpha = 0.7f), fontSize = 10.sp, fontWeight = FontWeight.Bold)
             )
         }
     }
@@ -72,8 +75,8 @@ fun RadarMap(
     val geofenceLabels = remember(geofences) {
         geofences.associateWith { geo ->
             textMeasurer.measure(
-                text = "${geo.emoji} ${geo.name}",
-                style = TextStyle(color = Color(0xFF34D399), fontSize = 11.sp, textAlign = TextAlign.Center)
+                text = "${geo.emoji} ${geo.name.uppercase()}",
+                style = TextStyle(color = PinkGlow, fontSize = 11.sp, fontWeight = FontWeight.Black, textAlign = TextAlign.Center)
             )
         }
     }
@@ -89,15 +92,16 @@ fun RadarMap(
 
     val memberNameLabels = remember(members, selectedMemberId) {
         members.associateWith { m ->
-            val labelColor = if (m.isSOS) Color(0xFFFCA5A5) else Color.White
-            val isSelectedModifier = if (selectedMemberId == m.id) "[ACTIVE]" else ""
+            val labelColor = if (m.isSOS) PinkGlow else CyberGreen
+            val isSelectedModifier = if (selectedMemberId == m.id) " // ACTIVE" else ""
             textMeasurer.measure(
-                text = "${m.name}$isSelectedModifier",
+                text = "${m.name.uppercase()}$isSelectedModifier",
                 style = TextStyle(
                     color = labelColor,
                     fontSize = 10.sp,
+                    fontWeight = FontWeight.Black,
                     textAlign = TextAlign.Center,
-                    shadow = Shadow(color = Color.Black, offset = Offset(1f, 1f), blurRadius = 3f)
+                    shadow = Shadow(color = Color.Black, offset = Offset(1.5f, 1.5f), blurRadius = 2f)
                 )
             )
         }
@@ -139,8 +143,9 @@ fun RadarMap(
 
     Box(
         modifier = modifier
-            .clip(RoundedCornerShape(24.dp))
-            .background(Color(0xFF0B121F)) // Very dark space blue background
+            .clip(RoundedCornerShape(12.dp))
+            .background(DeepInkBlack)
+            .border(3.dp, DeepInkBlack, RoundedCornerShape(12.dp))
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = { tapOffset ->
@@ -191,10 +196,10 @@ fun RadarMap(
             ranges.forEach { rangeMeters ->
                 val r = rangeMeters * ppm
                 drawCircle(
-                    color = Color(0xFF6366F1).copy(alpha = 0.12f),
+                    color = CyberGreen.copy(alpha = 0.25f),
                     radius = r,
                     center = center,
-                    style = Stroke(width = 1.5.dp.toPx(), pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 15f), 0f))
+                    style = Stroke(width = 1.5.dp.toPx(), pathEffect = PathEffect.dashPathEffect(floatArrayOf(8f, 12f), 0f))
                 )
 
                 // Label for each concentric range from cache
@@ -209,13 +214,13 @@ fun RadarMap(
 
             // Crosshair lines
             drawLine(
-                color = Color(0xFF6366F1).copy(alpha = 0.1f),
+                color = CyberGreen.copy(alpha = 0.15f),
                 start = Offset(0f, center.y),
                 end = Offset(size.width, center.y),
                 strokeWidth = 1.dp.toPx()
             )
             drawLine(
-                color = Color(0xFF6366F1).copy(alpha = 0.1f),
+                color = CyberGreen.copy(alpha = 0.15f),
                 start = Offset(center.x, 0f),
                 end = Offset(center.x, size.height),
                 strokeWidth = 1.dp.toPx()
@@ -227,13 +232,13 @@ fun RadarMap(
             val sweepEndY = center.y + maxRadius * sin(radians).toFloat()
             drawLine(
                 brush = Brush.linearGradient(
-                    colors = listOf(Color(0xFF818CF8).copy(alpha = 0.4f), Color(0xFF10B981).copy(alpha = 0.05f)),
+                    colors = listOf(CyberGreen.copy(alpha = 0.5f), Color.Transparent),
                     start = center,
                     end = Offset(sweepEndX, sweepEndY)
                 ),
                 start = center,
                 end = Offset(sweepEndX, sweepEndY),
-                strokeWidth = 2.5.dp.toPx()
+                strokeWidth = 3.dp.toPx()
             )
 
             // Draw Safety Zones / Geofences representation first (so they are drawn background level)
@@ -245,20 +250,20 @@ fun RadarMap(
 
                 // Glow ring
                 drawCircle(
-                    color = Color(0xFF34D399).copy(alpha = 0.06f),
+                    color = PinkGlow.copy(alpha = 0.08f),
                     radius = radiusPx,
                     center = geoCenter
                 )
                 drawCircle(
-                    color = Color(0xFF10B981).copy(alpha = 0.35f),
+                    color = PinkGlow.copy(alpha = 0.45f),
                     radius = radiusPx,
                     center = geoCenter,
-                    style = Stroke(width = 1.8.dp.toPx())
+                    style = Stroke(width = 2.dp.toPx())
                 )
 
                 // Dot & text in center of geofence
                 drawCircle(
-                    color = Color(0xFF10B981).copy(alpha = 0.7f),
+                    color = PinkGlow,
                     radius = 4.dp.toPx(),
                     center = geoCenter
                 )
@@ -279,7 +284,7 @@ fun RadarMap(
                     val pathColor = try {
                         Color(android.graphics.Color.parseColor(member.colorHex))
                     } catch (e: Exception) {
-                        Color(0xFF818CF8)
+                        CyberGreen
                     }
 
                     val points = track.map { pt ->
@@ -311,7 +316,7 @@ fun RadarMap(
                 val pinColor = try {
                     Color(android.graphics.Color.parseColor(m.colorHex))
                 } catch (e: Exception) {
-                    Color(0xFF6366F1)
+                    CyberGreen
                 }
 
                 // If Selected, draw a dynamic pulsing high-contrast glow halo
@@ -326,12 +331,12 @@ fun RadarMap(
                 // SOS Trigger alert circles
                 if (m.isSOS) {
                     drawCircle(
-                        color = Color(0xFFEF4444).copy(alpha = 0.25f),
+                        color = PinkGlow.copy(alpha = 0.3f),
                         radius = 34.dp.toPx() * pulseScale,
                         center = pinCenter
                     )
                     drawCircle(
-                        color = Color(0xFFEF4444).copy(alpha = 0.4f),
+                        color = PinkGlow,
                         radius = 22.dp.toPx() * pulseScale,
                         center = pinCenter,
                         style = Stroke(width = 2.dp.toPx())
@@ -372,9 +377,9 @@ fun RadarMap(
 
                 // Battery Indicator Small Dot (Red if < 20%, Green if good)
                 val batColor = when {
-                    m.batteryPercent < 20 -> Color(0xFFEF4444)
-                    m.batteryPercent < 50 -> Color(0xFFF59E0B)
-                    else -> Color(0xFF10B981)
+                    m.batteryPercent < 20 -> PinkGlow
+                    m.batteryPercent < 50 -> PinkGlow
+                    else -> CyberGreen
                 }
                 drawCircle(
                     color = batColor,
@@ -397,51 +402,62 @@ fun RadarMap(
         ) {
             FilledIconButton(
                 onClick = onZoomIn,
-                colors = IconButtonDefaults.filledIconButtonColors(containerColor = Color(0xFF1E293B).copy(alpha = 0.85f)),
-                modifier = Modifier.size(42.dp).testTag("zoom_in_button")
+                colors = IconButtonDefaults.filledIconButtonColors(containerColor = Color.White, contentColor = DeepInkBlack),
+                modifier = Modifier
+                    .size(42.dp)
+                    .border(2.dp, DeepInkBlack, CircleShape)
+                    .testTag("zoom_in_button")
             ) {
-                Icon(Icons.Filled.Add, contentDescription = "Zoom In", tint = Color.White)
+                Icon(Icons.Filled.Add, contentDescription = "Zoom In", tint = DeepInkBlack)
             }
 
             FilledIconButton(
                 onClick = onZoomOut,
-                colors = IconButtonDefaults.filledIconButtonColors(containerColor = Color(0xFF1E293B).copy(alpha = 0.85f)),
-                modifier = Modifier.size(42.dp).testTag("zoom_out_button")
+                colors = IconButtonDefaults.filledIconButtonColors(containerColor = Color.White, contentColor = DeepInkBlack),
+                modifier = Modifier
+                    .size(42.dp)
+                    .border(2.dp, DeepInkBlack, CircleShape)
+                    .testTag("zoom_out_button")
             ) {
-                Icon(Icons.Filled.Remove, contentDescription = "Zoom Out", tint = Color.White)
+                Icon(Icons.Filled.Remove, contentDescription = "Zoom Out", tint = DeepInkBlack)
             }
 
             FilledIconButton(
                 onClick = onResetPan,
-                colors = IconButtonDefaults.filledIconButtonColors(containerColor = Color(0xFF1E293B).copy(alpha = 0.85f)),
-                modifier = Modifier.size(42.dp).testTag("reset_pan_button")
+                colors = IconButtonDefaults.filledIconButtonColors(containerColor = CyberGreen, contentColor = DeepInkBlack),
+                modifier = Modifier
+                    .size(42.dp)
+                    .border(2.dp, DeepInkBlack, CircleShape)
+                    .testTag("reset_pan_button")
             ) {
-                Icon(Icons.Filled.MyLocation, contentDescription = "Recenter Map", tint = Color.White)
+                Icon(Icons.Filled.MyLocation, contentDescription = "Recenter Map", tint = DeepInkBlack)
             }
         }
 
         // Mini Badge indicating Radar Status
-        Card(
+        Box(
             modifier = Modifier
                 .align(Alignment.TopStart)
-                .padding(16.dp),
-            colors = CardDefaults.cardColors(containerColor = Color(0xFF1E293B).copy(alpha = 0.75f)),
-            shape = RoundedCornerShape(12.dp)
+                .padding(16.dp)
+                .border(2.dp, DeepInkBlack, RoundedCornerShape(4.dp))
+                .background(Color.White)
+                .padding(horizontal = 10.dp, vertical = 6.dp)
         ) {
             Row(
-                modifier = Modifier.padding(horizontal = 8.dp, vertical = 6.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 Box(
                     modifier = Modifier
                         .size(8.dp)
-                        .background(Color(0xFF10B981), CircleShape)
+                        .background(CyberGreen, CircleShape)
+                        .border(1.dp, DeepInkBlack, CircleShape)
                 )
                 Text(
-                    text = "RADAR SCANNING",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = Color(0xFF34D399),
+                    text = "SYS_SCANNING //",
+                    fontSize = 9.sp,
+                    fontWeight = FontWeight.Black,
+                    color = DeepInkBlack,
                     letterSpacing = 1.sp
                 )
             }
